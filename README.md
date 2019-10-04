@@ -1,36 +1,39 @@
-# Evolving compositional user interfaces
+# What's In A Model
 
 This is the source code repository for the demo application used in the
-NDC 2019 talk [Evolving compositional user interfaces][1].
+Øredev 2019 talk [What's In A Model][1].
 
 ## Description
 
-Ever since we started breaking applications into services, be it in the
-era of SOA or more recently with microservices, we’ve struggled to incorporate
-user interfaces into our decoupled, distributed architectures. We’ve seen
-frontends versioned separately with tight coupling to our services, breaking
-cohesion. We’ve seen the rise of Backend-For-Frontend and the emerge of micro
-frontends. We talk about composition, yet so many projects fail to implement
-actual composition. Instead we end up with some kind of compromise, with
-repeated business logic in the front-end, back-end and API, making it hard to
-scale – especially when multiple teams are involved – causing lock-step
-deployment, latency, bottlenecks and coordination issues.
+If you know the Model-View-Controller pattern, have you ever questioned why
+Microsoft's defaults encourage you to group everything by their type?
+Models here, Views there and Controllers over there. If grouping by type is
+such a good idea, why aren't we grouping all Strings, Integers and Booleans
+together as well? Perhaps there's a better way?
 
-What if we could find a viable solution that allowed us to scale development,
-keep distribution and cohesion and also provide composition of user interfaces?
-In this talk you are introduced to the evolution of compositional user
-interfaces and existing patterns while we discover their pros and cons, before
-diving into the architecture and development of compositional interfaces using
-hypermedia and micro-frontends. We go beyond the simple “Hello World” example
-that always seems to work, and you’ll learn patterns in modelling and design
-that will get you up and running with decoupled, composed user interfaces in
-your day job.
+ This talk will give you ideas for how to structure your applications
+ differently and doing it in a way that will make you more proficient in your
+ programming language all the while being able to more clearly represent and
+ model the real world in code. This may sound basic, but at its core, this is
+ all very hard, since modelling is hard.
+
+And modelling is hard because it is essentially about distilling the real world
+into code and the real world has absolutely no interest in being modeled. The
+real world is complex and chaotic, so we need all the tools we can muster to
+bring it into order. This talk will give you a few of these tools.
+
+## Key takeaways
+
+* Appreciate and understand better when to respect the DRY principle and when to break it.
+* Learn the difference between a data model, a view model, a message model, a domain model and when to use which.
+* How to use C# more extensively, when and why you should throw exceptions, when to use object initializers, when to use constructors and much more.
+* How to better structure your code and experience what Clean Code actually means.
 
 ## Credits
 
-- [Flip over][2] icon by [Nathan Smith][3] from [The Noun Project][4].
+* [Flip over][2] icon by [Nathan Smith][3] from [The Noun Project][4].
 
-  [1]: https://youtu.be/sn2IyBL-fbs
+  [1]: https://oredev.org/sessions/what-s-in-a-model-
   [2]: https://thenounproject.com/term/flip-over/267318/
   [3]: https://thenounproject.com/NathansMind/
   [4]: https://thenounproject.com/
