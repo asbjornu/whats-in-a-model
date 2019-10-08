@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Admin.Navigation;
-using Admin.Authorization;
+using Admin.Models;
+using Admin.Services;
+using Admin.Factories;
 
-namespace Admin.Home
+namespace Admin.Controllers
 {
     public class HomeController : Controller
     {

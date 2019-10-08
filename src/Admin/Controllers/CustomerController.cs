@@ -1,12 +1,11 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
-using Admin.Authorization;
-using Admin.Navigation;
-using Admin.Transactions;
 using Microsoft.AspNetCore.Mvc;
+using Admin.Models;
+using Admin.Services;
+using Admin.Factories;
 
-namespace Admin.Customers
+namespace Admin.Controllers
 {
     [Route("customers")]
     public class CustomerController : Controller
@@ -57,9 +56,9 @@ namespace Admin.Customers
 
         [HttpPost]
         [Route("{id}/update")]
-        public async Task<IActionResult> Update([FromRoute] string id, [FromForm] CustomerFormModel customerFormModel)
+        public async Task<IActionResult> Update([FromRoute] string id, [FromForm] CustomerViewModel customer)
         {
-            var customer = customerFormModel.Map(id);
+            customer.Id = id;
             await this.customerService.UpdateCustomer(customer);
             return RedirectToAction("Customer", new { Id = id });
         }

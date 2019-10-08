@@ -1,7 +1,9 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Admin.Authorization
+using Admin.Models;
+
+namespace Admin.Components
 {
     public class AuthorizationViewComponent : ViewComponent
     {

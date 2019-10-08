@@ -1,9 +1,11 @@
-@model Admin.Navigation.MenuViewModel
+@model Admin.Models.MenuViewModel
 
 <div class="container">
     <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Admin</a>
 
     <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+        @if (Model.Items.Any())
+        {
         <ul class="navbar-nav flex-grow-1">
             @foreach (var menuItem in Model.Items)
             {
@@ -12,5 +14,6 @@
                 </li>
             }
         </ul>
+        }
     </div>
 </div>

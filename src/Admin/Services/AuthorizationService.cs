@@ -3,8 +3,9 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
+using Admin.Models;
 
-namespace Admin.Authorization
+namespace Admin.Services
 {
     public class AuthorizationService
     {
@@ -22,7 +23,7 @@ namespace Admin.Authorization
             this.httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         }
 
-        public async Task<User> GetAuthorizedUserAsync()
+        public async Task<UserViewModel> GetAuthorizedUserAsync()
         {
             try
             {
@@ -31,7 +32,12 @@ namespace Admin.Authorization
                     response.EnsureSuccessStatusCode();
                     string responseBody = await response.Content.ReadAsStringAsync();
                     var jobject = JObject.Parse(responseBody);
-                    return new User(jobject["name"]?.ToString());
+                    var name = jobject["name"]?.ToString();
+                    
+                    return new UserViewModel
+                    {
+                        Name = name
+                    };
                 }
             }
             catch (Exception exception)

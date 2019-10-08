@@ -1,18 +1,11 @@
-using Admin.Authorization;
-using Admin.Navigation;
+using Admin.Factories;
 
-namespace Admin
+namespace Admin.Models
 {
     public class BaseViewModel
     {
-        public BaseViewModel(Menu menu, User user, UrlFactory urlFactory)
-        {
-            User = new UserViewModel(user);
-            Menu = new MenuViewModel(menu, urlFactory);
-        }
-
-        public UserViewModel User { get; }
-        public MenuViewModel Menu { get; }
-
+        public UserViewModel User { get; set; }
+        public MenuViewModel Menu { get; set; }
+        public UrlFactory UrlFactory { get; set; }
     }
 }

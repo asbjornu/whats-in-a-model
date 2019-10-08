@@ -2,10 +2,11 @@ using System;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Admin.Models;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
 
-namespace Admin.Navigation
+namespace Admin.Services
 {
     public class NavigationService
     {
@@ -23,7 +24,7 @@ namespace Admin.Navigation
             this.httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         }
 
-        public async Task<Menu> GetMenuAsync()
+        public async Task<MenuViewModel> GetMenuAsync()
         {
             try
             {
@@ -34,7 +35,11 @@ namespace Admin.Navigation
                     var jobject = JObject.Parse(responseBody);
                     var jtoken = jobject["items"];
                     var menuItems = jtoken.Select(MapMenuItem);
-                    return new Menu(menuItems);
+                    
+                    return new MenuViewModel
+                    {
+                        Items = menuItems
+                    };
                 }
             }
             catch (Exception exception)
@@ -43,11 +48,16 @@ namespace Admin.Navigation
             }
         }
 
-        private MenuItem MapMenuItem(JToken jToken)
+        private MenuItemViewModel MapMenuItem(JToken jToken)
         {
             var title = jToken["title"]?.ToString();
             var id = jToken["id"]?.ToString();
-            return new MenuItem(title, id);
+            
+            return new MenuItemViewModel
+            {
+                Url = id,
+                Title = title
+            };
         }
 
         private class NavigationException : ApplicationException

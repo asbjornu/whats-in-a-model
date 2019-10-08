@@ -1,19 +1,9 @@
 using System;
 
-namespace Admin.Authorization
+namespace Admin.Models
 {
     public class UserViewModel
     {
-        public UserViewModel(User user)
-        {
-            if (user == null)
-            {
-                throw new ArgumentNullException(nameof(user));
-            }
-
-            Name = user.Name;
-        }
-
-        public string Name { get; }
+        public string Name { get; set; }
     }
 }

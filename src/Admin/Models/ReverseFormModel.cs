@@ -1,6 +1,6 @@
-namespace Admin.Transactions
+namespace Admin.Models
 {
-    public class ReverseFormModel
+    public class ReverseModel
     {
         public decimal AmountToReverse { get; set; }
     }

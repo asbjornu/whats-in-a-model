@@ -5,11 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Admin.Navigation;
-using Admin.Authorization;
-using Admin.Views;
-using Admin.Customers;
-using Admin.Transactions;
+
+using Admin.Services;
 
 namespace Admin
 {

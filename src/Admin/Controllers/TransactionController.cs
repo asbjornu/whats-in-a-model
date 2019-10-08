@@ -1,10 +1,11 @@
 using System;
 using System.Threading.Tasks;
-using Admin.Authorization;
-using Admin.Navigation;
 using Microsoft.AspNetCore.Mvc;
+using Admin.Factories;
+using Admin.Models;
+using Admin.Services;
 
-namespace Admin.Transactions
+namespace Admin.Controllers
 {
     [Route("transactions")]
     public class TransactionController : Controller
@@ -26,9 +27,15 @@ namespace Admin.Transactions
             var user = await this.authorizationService.GetAuthorizedUserAsync();
             var transactions = await this.transactionService.GetTransactions();
             var urlFactory = new UrlFactory(Url);
-            var transactionsViewModel = new TransactionsViewModel(transactions, menu, user, urlFactory);
+            var transactionsModel = new TransactionsModel
+            {
+                Transactions = transactions,
+                Menu = menu,
+                User = user,
+                UrlFactory = urlFactory
+            };
 
-            return View(transactionsViewModel);
+            return View(transactionsModel);
         }
 
         [Route("{id}")]
@@ -38,9 +45,15 @@ namespace Admin.Transactions
             var user = await this.authorizationService.GetAuthorizedUserAsync();
             var transactions = await this.transactionService.GetTransactionsForCustomer(id);
             var urlFactory = new UrlFactory(Url);
-            var transactionsViewModel = new TransactionsViewModel(transactions, menu, user, urlFactory);
+            var transactionsModel = new TransactionsModel
+            {
+                Transactions = transactions,
+                Menu = menu,
+                User = user,
+                UrlFactory = urlFactory
+            };
 
-            return View("Index", transactionsViewModel);
+            return View("Index", transactionsModel);
         }
         
         [Route("t/{id}")]
@@ -50,24 +63,31 @@ namespace Admin.Transactions
             var user = await this.authorizationService.GetAuthorizedUserAsync();
             var transaction = await this.transactionService.GetTransaction(id);
             var urlFactory = new UrlFactory(Url);
-            var transactionViewModel = new TransactionDetailsViewModel(transaction, menu, user, urlFactory);
+            
+            var transactionDetails = new TransactionDetailsModel
+            {
+                Transaction = transaction,
+                Menu = menu,
+                User = user,
+                UrlFactory = urlFactory
+            };
 
-            return View("Details", transactionViewModel);
+            return View("Details", transactionDetails);
         }
         
         [HttpPost]
         [Route("t/{id}/capture")]
-        public async Task<IActionResult> Capture([FromRoute] int id, [FromForm] CaptureFormModel captureFormModel)
+        public async Task<IActionResult> Capture([FromRoute] int id, [FromForm] CaptureModel capture)
         {
-            await this.transactionService.CaptureTransaction(id, captureFormModel.AmountToCapture);
+            await this.transactionService.CaptureTransaction(id, capture.AmountToCapture);
             return RedirectToAction("Details", new { id });
         }
 
         [HttpPost]
         [Route("t/{id}/reversal")]
-        public async Task<IActionResult> Reverse([FromRoute] int id, [FromForm] ReverseFormModel reverseFormModel)
+        public async Task<IActionResult> Reverse([FromRoute] int id, [FromForm] ReverseModel reverse)
         {
-            await this.transactionService.ReverseTransaction(id, reverseFormModel.AmountToReverse);
+            await this.transactionService.ReverseTransaction(id, reverse.AmountToReverse);
             return RedirectToAction("Details", new { id });
         }
     }

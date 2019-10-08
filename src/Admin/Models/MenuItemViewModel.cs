@@ -1,22 +1,11 @@
 using System;
 
-namespace Admin.Navigation
+namespace Admin.Models
 {
     public class MenuItemViewModel
-    {
-        public MenuItemViewModel(MenuItem menuItem, Uri url)
-        {
-            if (menuItem == null)
-            {
-                throw new ArgumentNullException(nameof(menuItem));
-            }
+    {        
+        public string Title { get; set; }
 
-            Title = menuItem.Title;
-            Url = url?.ToString() ?? throw new ArgumentNullException(nameof(url));
-        }
-
-        public string Title { get; }
-
-        public string Url { get; }
+        public string Url { get; set; }
     }
 }

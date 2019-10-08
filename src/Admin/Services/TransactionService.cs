@@ -2,14 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Formatting;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http.Extensions;
-using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
 
-namespace Admin.Transactions
+using Admin.Models;
+
+namespace Admin.Services
 {
     public class TransactionService
     {
@@ -27,7 +26,7 @@ namespace Admin.Transactions
             this.httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         }
 
-        public async Task<IEnumerable<Transaction>> GetTransactions()
+        public async Task<IEnumerable<TransactionViewModel>> GetTransactions()
         {
             try
             {
@@ -46,7 +45,7 @@ namespace Admin.Transactions
             }
         }
 
-        public async Task<IEnumerable<Transaction>> GetTransactionsForCustomer(string customerId)
+        public async Task<IEnumerable<TransactionViewModel>> GetTransactionsForCustomer(string customerId)
         {
             try
             {
@@ -67,7 +66,7 @@ namespace Admin.Transactions
             }
         }
         
-        public async Task<Transaction> GetTransaction(int id)
+        public async Task<TransactionViewModel> GetTransaction(int id)
         {
             try
             {
@@ -86,7 +85,7 @@ namespace Admin.Transactions
             }
         }
 
-        public async Task<Transaction> CaptureTransaction(int transactionId, decimal amount)
+        public async Task<TransactionViewModel> CaptureTransaction(int transactionId, decimal amount)
         {
             try
             {
@@ -108,7 +107,7 @@ namespace Admin.Transactions
             }
         }
         
-        public async Task<Transaction> ReverseTransaction(int transactionId, decimal amount)
+        public async Task<TransactionViewModel> ReverseTransaction(int transactionId, decimal amount)
         {
             try
             {
@@ -130,7 +129,7 @@ namespace Admin.Transactions
             }
         }
         
-        private static Transaction MapTransaction(JToken jtoken)
+        private static TransactionViewModel MapTransaction(JToken jtoken)
         {
             var id = jtoken["id"].Value<int>();
             var step = jtoken["step"].Value<int>();
@@ -149,7 +148,19 @@ namespace Admin.Transactions
             var payee = new Party(payeeName, payeeOldBalance, payeeNewBalance);
             var isFraud = jtoken["isFraud"].Value<bool>();
             var isFlaggedFraud = jtoken["isFlaggedFraud"].Value<bool>();
-            return new Transaction(id, step, type, amount, capturedAmount, payer, payee, isFraud, isFlaggedFraud);
+            
+            return new TransactionViewModel
+            {
+                id = id,
+                Step = step,
+                Type = type,
+                Amount = amount,
+                CapturedAmount = capturedAmount,
+                Payer = payer,
+                Payee = payee,
+                IsFraud = isFraud,
+                IsFlaggedFraud = isFlaggedFraud
+            };
         }
 
         private class TransactionException : ApplicationException

@@ -1,4 +1,3 @@
-using System.Globalization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,10 +6,10 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using System.Net.Http.Headers;
+using Admin.Models;
 
-namespace Admin.Customers
+namespace Admin.Services
 {
     public class CustomerService
     {
@@ -28,7 +27,7 @@ namespace Admin.Customers
             this.httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         }
 
-        public async Task<IEnumerable<Customer>> GetCustomers()
+        public async Task<IEnumerable<CustomerViewModel>> GetCustomers()
         {
             try
             {
@@ -47,7 +46,7 @@ namespace Admin.Customers
             }
         }
 
-        public async Task<CustomerResponse> GetCustomer(string id)
+        public async Task<CustomerViewModel> GetCustomer(string id)
         {
             if (id == null)
             {
@@ -62,7 +61,8 @@ namespace Admin.Customers
                 {
                     response.EnsureSuccessStatusCode();
                     string responseBody = await response.Content.ReadAsStringAsync();
-                    return MapCustomerResponse(responseBody);
+                    var jobject = JObject.Parse(responseBody);
+                    return MapCustomer(jobject);
                 }
             }
             catch (Exception exception)
@@ -71,7 +71,7 @@ namespace Admin.Customers
             }
         }
 
-        public async Task<CustomerResponse> UpdateCustomer(Customer customer)
+        public async Task<CustomerViewModel> UpdateCustomer(CustomerViewModel customer)
         {
             if (customer == null)
             {
@@ -82,15 +82,15 @@ namespace Admin.Customers
 
             try
             {
-                var customerRequestModel = new CustomerRequestModel(customer);
-                var json = customerRequestModel.ToString();
+                var json = JsonConvert.SerializeObject(customer);
                 var content = new StringContent(json);
                 content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
                 using (var response = await this.httpClient.PutAsync(url, content))
                 {
                     response.EnsureSuccessStatusCode();
                     string responseBody = await response.Content.ReadAsStringAsync();
-                    return MapCustomerResponse(responseBody);
+                    var jobject = JObject.Parse(json);
+                    return MapCustomer(jobject);
                 }
             }
             catch (Exception exception)
@@ -99,7 +99,7 @@ namespace Admin.Customers
             }
         }
 
-        private static Customer MapCustomer(JToken jtoken)
+        private static CustomerViewModel MapCustomer(JToken jtoken)
         {
             var id = jtoken["id"]?.ToString();
             var name = jtoken["name"]?.ToString();
@@ -110,8 +110,11 @@ namespace Admin.Customers
             var userName = jtoken["userName"]?.ToString();
             var website = jtoken["website"]?.ToString();
 
-            var customer = new Customer(id, name, birthDate)
+            var customer = new CustomerViewModel
             {
+                Id = id,
+                Name = name,
+                BirthDate = birthDate,
                 Email = email,
                 Ssn = ssn,
                 Phone = phone,
@@ -126,17 +129,16 @@ namespace Admin.Customers
                 var zipCode = address["zipCode"]?.ToString();
                 var city = address["city"]?.ToString();
                 var state = address["state"]?.ToString();
-                customer.Address = new Address(street, city, zipCode, state);
+                customer.Address = new AddressViewModel
+                {
+                    Street = street,
+                    ZipCode = zipCode,
+                    City = city,
+                    State = state
+                };
             }
 
             return customer;
-        }
-
-        private static CustomerResponse MapCustomerResponse(string json)
-        {
-            var jobject = JObject.Parse(json);
-            var customer = MapCustomer(jobject);
-            return new CustomerResponse(customer, json);
         }
 
         private class CustomerException : ApplicationException
@@ -145,67 +147,6 @@ namespace Admin.Customers
                 : base($"The customer operation request to <{requestUrl}> failed.", innerException)
             {
             }
-        }
-
-        private class CustomerRequestModel
-        {
-            public CustomerRequestModel(Customer customer)
-            {
-                Id = customer.Id;
-                Name = customer.Name;
-                Email = customer.Email.ToString();
-                BirthDate = customer.BirthDate.ToString();
-                Phone = customer.Phone;
-                UserName = customer.UserName;
-                Website = customer.Website;
-
-                if (customer.Address != null)
-                {
-                    Address = new AddressRequestModel(customer.Address);
-                }
-            }
-
-            public string Id { get; }
-            public string Name { get; }
-            public string Email { get; }
-            public string BirthDate { get; }
-            public string Phone { get; }
-            public string UserName { get; }
-            public string Website { get; }
-
-            public AddressRequestModel Address { get; }
-
-            public override string ToString()
-            {
-                var contractResolver = new DefaultContractResolver
-                {
-                    NamingStrategy = new CamelCaseNamingStrategy()
-                };
-
-                var settings = new JsonSerializerSettings
-                {
-                    ContractResolver = contractResolver
-                };
-
-                return JsonConvert.SerializeObject(this, settings);
-            }
-        }
-
-        private class AddressRequestModel
-        {
-
-            public AddressRequestModel(Address address)
-            {
-                Street = address.Street;
-                City = address.City;
-                ZipCode = address.ZipCode;
-                State = address.State;
-            }
-
-            public string Street { get; }
-            public string City { get; }
-            public string ZipCode { get; }
-            public string State { get; }
         }
     }
 }

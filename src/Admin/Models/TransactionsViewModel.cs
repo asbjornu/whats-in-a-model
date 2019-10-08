@@ -2,34 +2,22 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Admin.Authorization;
-using Admin.Navigation;
+using Admin.Factories;
 
-namespace Admin.Transactions
+namespace Admin.Models
 {
-    public class TransactionsViewModel : BaseViewModel, IEnumerable<TransactionViewModel>
+    public class TransactionsModel : BaseModel, IEnumerable<TransactionModel>
     {
-        private readonly IEnumerable<TransactionViewModel> transactions;
+        public IEnumerable<TransactionModel> Transactions { get; set; }
 
-        public TransactionsViewModel(IEnumerable<Transaction> transactions, Menu menu, User user, UrlFactory urlFactory)
-            : base(menu, user, urlFactory)
+        public IEnumerator<TransactionModel> GetEnumerator()
         {
-            if (transactions == null)
-            {
-                throw new ArgumentNullException(nameof(transactions));
-            }
-
-            this.transactions = transactions.Select(transaction => new TransactionViewModel(transaction));
-        }
-
-        public IEnumerator<TransactionViewModel> GetEnumerator()
-        {
-            return this.transactions.GetEnumerator();
+            return Transactions.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return this.transactions.GetEnumerator();
+            return Transactions.GetEnumerator();
         }
     }
 }

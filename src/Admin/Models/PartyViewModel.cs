@@ -1,21 +1,9 @@
-namespace Admin.Transactions
+namespace Admin.Models
 {
     public class PartyViewModel
     {
-        public PartyViewModel(Party party)
-        {
-            if (party == null)
-            {
-                throw new System.ArgumentNullException(nameof(party));
-            }
-
-            Name = party.Name;
-            OldBalance = party.OldBalance.ToString("c");
-            NewBalance = party.NewBalance.ToString("c");
-        }
-
-        public string Name { get; }
-        public string OldBalance { get; }
-        public string NewBalance { get; }
+        public string Name { get; set; }
+        public string OldBalance { get; set; }
+        public string NewBalance { get; set; }
     }
 }

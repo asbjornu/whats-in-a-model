@@ -1,7 +1,7 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Admin.Navigation
+namespace Admin.Factories
 {
     public class UrlFactory
     {
