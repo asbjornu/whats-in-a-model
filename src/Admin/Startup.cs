@@ -32,11 +32,6 @@ namespace Admin
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.Configure<RazorViewEngineOptions>(options =>
-            {
-                options.ViewLocationExpanders.Add(new ViewLocationExpander());
-            });
-
             services.Configure<HttpServiceOptions>("NavigationOptions", this.configuration.GetSection("Navigation"));
             services.Configure<HttpServiceOptions>("AuthorizationOptions", this.configuration.GetSection("Authorization"));
             services.Configure<HttpServiceOptions>("CustomerOptions", this.configuration.GetSection("Customer"));

@@ -1,4 +1,4 @@
-﻿@model Admin.BaseViewModel
+﻿@model Admin.Models.BaseModel
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,8 +24,8 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             @{/* TODO: Figure out how to use <vc:authorization/> instead of the ugly '@await Component.' syntax */}
-            @await Component.InvokeAsync("Admin.Navigation.Navigation", Model.Menu)
-            @await Component.InvokeAsync("Admin.Authorization.Authorization", Model.User)
+            @await Component.InvokeAsync("Admin.Components.Navigation", Model.Menu)
+            @await Component.InvokeAsync("Admin.Components.Authorization", Model.User)
         </nav>
     </header>
 

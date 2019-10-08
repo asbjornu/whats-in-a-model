@@ -1,4 +1,6 @@
-namespace Admin.Errors
+using System;
+
+namespace Admin.Models
 {
     public class ErrorViewModel
     {

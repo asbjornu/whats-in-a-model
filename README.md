@@ -11,11 +11,11 @@ Models here, Views there and Controllers over there. If grouping by type is
 such a good idea, why aren't we grouping all Strings, Integers and Booleans
 together as well? Perhaps there's a better way?
 
- This talk will give you ideas for how to structure your applications
- differently and doing it in a way that will make you more proficient in your
- programming language all the while being able to more clearly represent and
- model the real world in code. This may sound basic, but at its core, this is
- all very hard, since modelling is hard.
+This talk will give you ideas for how to structure your applications
+differently and doing it in a way that will make you more proficient in your
+programming language all the while being able to more clearly represent and
+model the real world in code. This may sound basic, but at its core, this is
+all very hard, since modelling is hard.
 
 And modelling is hard because it is essentially about distilling the real world
 into code and the real world has absolutely no interest in being modeled. The
