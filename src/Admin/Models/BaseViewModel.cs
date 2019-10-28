@@ -2,10 +2,10 @@ using Admin.Factories;
 
 namespace Admin.Models
 {
-    public class BaseViewModel
+    public class BaseModel
     {
-        public UserViewModel User { get; set; }
-        public MenuViewModel Menu { get; set; }
+        public UserModel User { get; set; }
+        public MenuModel Menu { get; set; }
         public UrlFactory UrlFactory { get; set; }
     }
 }

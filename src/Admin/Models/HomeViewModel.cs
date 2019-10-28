@@ -1,6 +1,6 @@
 namespace Admin.Models
 {
-    public class HomeViewModel : BaseViewModel
+    public class HomeModel : BaseModel
     {
     }
 }

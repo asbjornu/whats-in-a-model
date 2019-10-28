@@ -1,6 +1,6 @@
-namespace Admin.Transactions
+namespace Admin.Models
 {
-    public class CaptureFormModel
+    public class CaptureModel
     {
         public decimal AmountToCapture { get; set; }
     }

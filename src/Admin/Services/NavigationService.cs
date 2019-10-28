@@ -24,7 +24,7 @@ namespace Admin.Services
             this.httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         }
 
-        public async Task<MenuViewModel> GetMenuAsync()
+        public async Task<MenuModel> GetMenuAsync()
         {
             try
             {
@@ -36,7 +36,7 @@ namespace Admin.Services
                     var jtoken = jobject["items"];
                     var menuItems = jtoken.Select(MapMenuItem);
                     
-                    return new MenuViewModel
+                    return new MenuModel
                     {
                         Items = menuItems
                     };
@@ -48,12 +48,12 @@ namespace Admin.Services
             }
         }
 
-        private MenuItemViewModel MapMenuItem(JToken jToken)
+        private MenuItemModel MapMenuItem(JToken jToken)
         {
             var title = jToken["title"]?.ToString();
             var id = jToken["id"]?.ToString();
             
-            return new MenuItemViewModel
+            return new MenuItemModel
             {
                 Url = id,
                 Title = title

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace Admin.Models
 {
-    public class CustomersViewModel : BaseViewModel, IEnumerable<CustomerViewModel>
+    public class CustomersModel : BaseModel, IEnumerable<CustomerModel>
     {
-        public IEnumerable<CustomerViewModel> Customers { get; set; }
+        public IEnumerable<CustomerModel> Customers { get; set; }
 
-        public IEnumerator<CustomerViewModel> GetEnumerator()
+        public IEnumerator<CustomerModel> GetEnumerator()
         {
             return Customers.GetEnumerator();
         }

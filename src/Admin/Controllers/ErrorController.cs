@@ -9,7 +9,7 @@ namespace Admin.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Index()
         {
-            return View(new ErrorViewModel
+            return View(new ErrorModel
             { 
                 RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
             });

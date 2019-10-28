@@ -23,9 +23,14 @@ namespace Admin.Controllers
             var menu = await this.navigationService.GetMenuAsync();
             var user = await this.authorizationService.GetAuthorizedUserAsync();
             var urlFactory = new UrlFactory(Url);
-            var homeViewModel = new HomeViewModel(menu, user, urlFactory);
+            var homeModel = new HomeModel
+            {
+                Menu = menu,
+                User = user,
+                UrlFactory = urlFactory
+            };
 
-            return View(homeViewModel);
+            return View(homeModel);
         }
     }
 }

@@ -2,8 +2,8 @@ using System.Collections.Generic;
 
 namespace Admin.Models
 {
-    public class MenuViewModel
+    public class MenuModel
     {
-        public IEnumerable<MenuItemViewModel> Items { get; set; }
+        public IEnumerable<MenuItemModel> Items { get; set; }
     }
 }

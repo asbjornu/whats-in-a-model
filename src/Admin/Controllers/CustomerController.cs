@@ -30,9 +30,15 @@ namespace Admin.Controllers
             var customers = await this.customerService.GetCustomers();
             var urlFactory = new UrlFactory(Url);
 
-            var customersViewModel = new CustomersViewModel(customers, menu, user, urlFactory);
+            var customersModel = new CustomersModel
+            {
+                Customers = customers,
+                Menu = menu,
+                User = user,
+                UrlFactory = urlFactory
+            };
 
-            return View(customersViewModel);
+            return View(customersModel);
         }
 
         [Route("{id}")]
@@ -40,12 +46,16 @@ namespace Admin.Controllers
         {
             var menu = await this.navigationService.GetMenuAsync();
             var user = await this.authorizationService.GetAuthorizedUserAsync();
-            var customerResponse = await this.customerService.GetCustomer(id);
+            var customer = await this.customerService.GetCustomer(id);
             var urlFactory = new UrlFactory(Url);
             var transactions = await this.transactionService.GetTransactionsForCustomer(id);
-            var customersViewModel = new CustomerViewModel(customerResponse, menu, user, urlFactory, transactions);
+            
+            customer.Menu = menu;
+            customer.User = user;
+            customer.UrlFactory = urlFactory;
+            customer.Transactions = transactions;
 
-            return View(customersViewModel);
+            return View(customer);
         }
 
         [Route("{id}/edit")]
@@ -56,7 +66,7 @@ namespace Admin.Controllers
 
         [HttpPost]
         [Route("{id}/update")]
-        public async Task<IActionResult> Update([FromRoute] string id, [FromForm] CustomerViewModel customer)
+        public async Task<IActionResult> Update([FromRoute] string id, [FromForm] CustomerModel customer)
         {
             customer.Id = id;
             await this.customerService.UpdateCustomer(customer);

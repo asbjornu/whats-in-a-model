@@ -2,7 +2,7 @@ using System;
 
 namespace Admin.Models
 {
-    public class MenuItemViewModel
+    public class MenuItemModel
     {        
         public string Title { get; set; }
 

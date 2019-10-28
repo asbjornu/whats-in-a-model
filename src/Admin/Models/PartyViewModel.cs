@@ -1,9 +1,9 @@
 namespace Admin.Models
 {
-    public class PartyViewModel
+    public class PartyModel
     {
         public string Name { get; set; }
-        public string OldBalance { get; set; }
-        public string NewBalance { get; set; }
+        public decimal OldBalance { get; set; }
+        public decimal NewBalance { get; set; }
     }
 }

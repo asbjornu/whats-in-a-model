@@ -2,7 +2,7 @@ using System;
 
 namespace Admin.Models
 {
-    public class UserViewModel
+    public class UserModel
     {
         public string Name { get; set; }
     }

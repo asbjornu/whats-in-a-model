@@ -2,7 +2,7 @@ using System;
 
 namespace Admin.Models
 {
-    public class AddressViewModel
+    public class AddressModel
     {
         public string Street { get; set; }
         public string City { get; set; }

@@ -27,7 +27,7 @@ namespace Admin.Services
             this.httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         }
 
-        public async Task<IEnumerable<CustomerViewModel>> GetCustomers()
+        public async Task<IEnumerable<CustomerModel>> GetCustomers()
         {
             try
             {
@@ -46,7 +46,7 @@ namespace Admin.Services
             }
         }
 
-        public async Task<CustomerViewModel> GetCustomer(string id)
+        public async Task<CustomerModel> GetCustomer(string id)
         {
             if (id == null)
             {
@@ -71,7 +71,7 @@ namespace Admin.Services
             }
         }
 
-        public async Task<CustomerViewModel> UpdateCustomer(CustomerViewModel customer)
+        public async Task<CustomerModel> UpdateCustomer(CustomerModel customer)
         {
             if (customer == null)
             {
@@ -99,7 +99,7 @@ namespace Admin.Services
             }
         }
 
-        private static CustomerViewModel MapCustomer(JToken jtoken)
+        private static CustomerModel MapCustomer(JToken jtoken)
         {
             var id = jtoken["id"]?.ToString();
             var name = jtoken["name"]?.ToString();
@@ -110,7 +110,7 @@ namespace Admin.Services
             var userName = jtoken["userName"]?.ToString();
             var website = jtoken["website"]?.ToString();
 
-            var customer = new CustomerViewModel
+            var customer = new CustomerModel
             {
                 Id = id,
                 Name = name,
@@ -129,7 +129,7 @@ namespace Admin.Services
                 var zipCode = address["zipCode"]?.ToString();
                 var city = address["city"]?.ToString();
                 var state = address["state"]?.ToString();
-                customer.Address = new AddressViewModel
+                customer.Address = new AddressModel
                 {
                     Street = street,
                     ZipCode = zipCode,

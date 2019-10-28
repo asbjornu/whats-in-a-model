@@ -26,7 +26,7 @@ namespace Admin.Services
             this.httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         }
 
-        public async Task<IEnumerable<TransactionViewModel>> GetTransactions()
+        public async Task<IEnumerable<TransactionModel>> GetTransactions()
         {
             try
             {
@@ -45,7 +45,7 @@ namespace Admin.Services
             }
         }
 
-        public async Task<IEnumerable<TransactionViewModel>> GetTransactionsForCustomer(string customerId)
+        public async Task<IEnumerable<TransactionModel>> GetTransactionsForCustomer(string customerId)
         {
             try
             {
@@ -66,7 +66,7 @@ namespace Admin.Services
             }
         }
         
-        public async Task<TransactionViewModel> GetTransaction(int id)
+        public async Task<TransactionModel> GetTransaction(int id)
         {
             try
             {
@@ -85,7 +85,7 @@ namespace Admin.Services
             }
         }
 
-        public async Task<TransactionViewModel> CaptureTransaction(int transactionId, decimal amount)
+        public async Task<TransactionModel> CaptureTransaction(int transactionId, decimal amount)
         {
             try
             {
@@ -107,7 +107,7 @@ namespace Admin.Services
             }
         }
         
-        public async Task<TransactionViewModel> ReverseTransaction(int transactionId, decimal amount)
+        public async Task<TransactionModel> ReverseTransaction(int transactionId, decimal amount)
         {
             try
             {
@@ -129,7 +129,7 @@ namespace Admin.Services
             }
         }
         
-        private static TransactionViewModel MapTransaction(JToken jtoken)
+        private static TransactionModel MapTransaction(JToken jtoken)
         {
             var id = jtoken["id"].Value<int>();
             var step = jtoken["step"].Value<int>();
@@ -140,18 +140,28 @@ namespace Admin.Services
             var payerName = payerToken["name"]?.ToString();
             var payerOldBalance = payerToken["oldBalance"].Value<decimal>();
             var payerNewBalance = payerToken["newBalance"].Value<decimal>();
-            var payer = new Party(payerName, payerOldBalance, payerNewBalance);
+            var payer = new PartyModel
+            {
+                Name = payerName,
+                OldBalance = payerOldBalance,
+                NewBalance = payerNewBalance
+            };
             var payeeToken = jtoken["payee"];
             var payeeName = payeeToken["name"]?.ToString();
             var payeeOldBalance = payeeToken["oldBalance"].Value<decimal>();
             var payeeNewBalance = payeeToken["newBalance"].Value<decimal>();
-            var payee = new Party(payeeName, payeeOldBalance, payeeNewBalance);
+            var payee = new PartyModel
+            {
+                Name = payeeName,
+                OldBalance = payeeOldBalance,
+                NewBalance = payeeNewBalance
+            };
             var isFraud = jtoken["isFraud"].Value<bool>();
             var isFlaggedFraud = jtoken["isFlaggedFraud"].Value<bool>();
             
-            return new TransactionViewModel
+            return new TransactionModel
             {
-                id = id,
+                Id = id,
                 Step = step,
                 Type = type,
                 Amount = amount,

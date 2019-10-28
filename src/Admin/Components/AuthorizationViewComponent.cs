@@ -7,7 +7,7 @@ namespace Admin.Components
 {
     public class AuthorizationViewComponent : ViewComponent
     {
-        public async Task<IViewComponentResult> InvokeAsync(UserViewModel user)
+        public async Task<IViewComponentResult> InvokeAsync(UserModel user)
         {
             return View("Default", user);
         }

@@ -23,7 +23,7 @@ namespace Admin.Services
             this.httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         }
 
-        public async Task<UserViewModel> GetAuthorizedUserAsync()
+        public async Task<UserModel> GetAuthorizedUserAsync()
         {
             try
             {
@@ -34,7 +34,7 @@ namespace Admin.Services
                     var jobject = JObject.Parse(responseBody);
                     var name = jobject["name"]?.ToString();
                     
-                    return new UserViewModel
+                    return new UserModel
                     {
                         Name = name
                     };
