@@ -55,7 +55,7 @@ namespace Admin.Services
             
             return new MenuItemModel
             {
-                Url = id,
+                Url = "/" + id,
                 Title = title
             };
         }
