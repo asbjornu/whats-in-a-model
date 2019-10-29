@@ -68,9 +68,11 @@ namespace Admin.Services
         
         public async Task<TransactionModel> GetTransaction(int id)
         {
+            Uri uri = null;
+            
             try
             {
-                var uri = new Uri(this.baseUrl, $"{id}");
+                uri = new Uri(this.baseUrl, $"{id}");
                 using (var response = await this.httpClient.GetAsync(uri))
                 {
                     response.EnsureSuccessStatusCode();
@@ -81,15 +83,17 @@ namespace Admin.Services
             }
             catch (Exception exception)
             {
-                throw new TransactionException(this.baseUrl, exception);
+                throw new TransactionException(uri ?? this.baseUrl, exception);
             }
         }
 
         public async Task<TransactionModel> CaptureTransaction(int transactionId, decimal amount)
         {
+            Uri uri = null;
+
             try
             {
-                var uri = new Uri(baseUrl, $"/{transactionId}/capture");
+                uri = new Uri(baseUrl, $"/{transactionId}/capture");
                 var request = new {amount};
 
                 using (var response = await httpClient.PostAsJsonAsync(uri, request))
@@ -103,7 +107,7 @@ namespace Admin.Services
             }
             catch (Exception exception)
             {
-                throw new TransactionException(this.baseUrl, exception);
+                throw new TransactionException(uri ?? this.baseUrl, exception);
             }
         }
         
