@@ -44,17 +44,7 @@ namespace Admin.Controllers
         [Route("{id}")]
         public async Task<IActionResult> Customer(string id)
         {
-            var menu = await this.navigationService.GetMenuAsync();
-            var user = await this.authorizationService.GetAuthorizedUserAsync();
-            var customer = await this.customerService.GetCustomer(id);
-            var urlFactory = new UrlFactory(Url);
-            var transactions = await this.transactionService.GetTransactionsForCustomer(id);
-            
-            customer.Menu = menu;
-            customer.User = user;
-            customer.UrlFactory = urlFactory;
-            customer.Transactions = transactions;
-
+            var customer = await GetCustomerAsync(id);
             return View(customer);
         }
 
@@ -68,9 +58,35 @@ namespace Admin.Controllers
         [Route("{id}/update")]
         public async Task<IActionResult> Update([FromRoute] string id, [FromForm] CustomerModel customer)
         {
+            if (!ModelState.IsValid)
+            {
+                var existingCustomer = await GetCustomerAsync(id);
+                customer.Menu = existingCustomer.Menu;
+                customer.User = existingCustomer.User;
+                customer.UrlFactory = existingCustomer.UrlFactory;
+                customer.Transactions = existingCustomer.Transactions;
+                return View("Edit", customer);
+            }
+
             customer.Id = id;
             await this.customerService.UpdateCustomer(customer);
             return RedirectToAction("Customer", new { Id = id });
+        }
+
+        private async Task<CustomerModel> GetCustomerAsync(string id)
+        {
+            var menu = await this.navigationService.GetMenuAsync();
+            var user = await this.authorizationService.GetAuthorizedUserAsync();
+            var customer = await this.customerService.GetCustomer(id);
+            var urlFactory = new UrlFactory(Url);
+            var transactions = await this.transactionService.GetTransactionsForCustomer(id);
+
+            customer.Menu = menu;
+            customer.User = user;
+            customer.UrlFactory = urlFactory;
+            customer.Transactions = transactions;
+
+            return customer;
         }
     }
 }
