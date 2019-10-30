@@ -12,6 +12,7 @@ namespace Customers
             this.customerRepository = customerRepository ?? throw new ArgumentNullException(nameof(customerRepository));
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             var customers = this.customerRepository.GetCustomers();
@@ -19,6 +20,7 @@ namespace Customers
             return Json(customerListResponse);
         }
 
+        [HttpGet]
         [Route("{id}")]
         public IActionResult Customer(string id)
         {
